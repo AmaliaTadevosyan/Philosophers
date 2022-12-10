@@ -6,7 +6,7 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 15:06:32 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/07 15:41:26 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/10 16:30:13 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ void		ft_usleep(int ms);
 long int	get_time(void);
 int			check_args(char **argv);
 void		args_parsing(char **argv, int argc, t_data *data);
+void		init_mutex(pthread_mutex_t *forks, int forks_count);
+void		init_philo(t_data *data, pthread_mutex_t *forks, char **argv);
 
 #endif
