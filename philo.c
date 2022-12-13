@@ -6,36 +6,63 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 16:25:45 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/10 16:58:57 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/13 16:29:01 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void *routine(void *philo_data)
+void	*routine(t_data *data)
 {
-	long	curr_time;
-	t_data	data;
-
-	philo = philo_data;
+	long long	cur_time;
+	
+	cur_time = get_time();
 	if (data->philo_index % 2)
-		ft_usleep(200);
+		ft_usleep(data->time_to_eat);
 	while (1)
 	{
-		pthred_mutex_lock(data->left_fork);
-		curr_time = get_time();
+		pthread_mutex_lock(&data->right_fork);
+		printf("%llu, %d has teken right fork\n", get_time() - cur_time, data->philo_index);
+		pthread_mutex_lock(&data->left_fork);
+		data->eat_count++;
+		printf("%llu %d has teken left fork\n", get_time() - cur_time, data->philo_index);
+		printf("%llu, %d is eating\n", get_time() - cur_time, data->philo_index);
+		data->last_eat = get_time();
+		ft_usleep(data->time_to_eat);
+		pthread_mutex_unlock(&data->right_fork);
+		pthread_mutex_unlock(&data->left_fork);
+		printf("%llu, %d is sleeping\n", get_time() - cur_time, data->philo_index);
+		ft_usleep(data->time_to_sleep);
 	}
 }
 
-int	check_dead(t_data data)
+int	check_dead(t_data *data)
 {
-	long	curr_time;
-
-	curr_time = get_time();
-	if (curr_time - data.last_eat > data.time_to_die)
+	int			i;
+	long long	time;
+	int			count;
+	
+	count = 0;
+	i = 0;
+	while (i < data->philo_count)
 	{
-		printf("%s %d %s\n", "philo number", data.philo_index, "died");
-		return (1);
+		time = get_time();
+		if (data->eat_count == data->num_must_eat)
+		{
+			
+		}
 	}
-	return (0);
+}
+
+int	ft_finish(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->num_must_eat < 0)
+		return (0);
+	while (i++ < data->philo_count)
+	{
+		thread_mutex_unlock(&data[i].time_to_eat);	
+	}
 }

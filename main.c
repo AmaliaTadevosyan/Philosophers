@@ -6,11 +6,26 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 16:28:12 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/10 16:37:08 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/13 16:20:45 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	ft_free(t_data *data, pthread_mutex_t *forks)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->philo_count)
+	{
+		pthread_mutex_destroy(&data[i].left_fork);
+		phtread_mutex_destroy(&data[i].right_fork);
+		i++;
+	}
+	free(data);
+	free(forks);
+}
 
 int	main(int argc, char **argv)
 {
@@ -35,6 +50,7 @@ int	main(int argc, char **argv)
 			{
 				if (check_dead())
 				{
+					ft_free(data, forks);
 					printf("Philo is died!\n");
 					return (0);
 				}

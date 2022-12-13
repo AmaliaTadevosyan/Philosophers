@@ -10,20 +10,17 @@ OBJS	=	$(patsubst %.c, %.o, $(SRCS))
 %.o: %.c
 			$(CC) $(CFLAGS) -c  $< -o $@
 
-all:		lib $(NAME)
-
-lib:
-	cd libft && make
+all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			$(CC) -o $(NAME) $(OBJS) libft/*.o
+			$(CC) -o $(NAME) $(OBJS)
 
 clean:
-			$(RM) $(OBJS) libft/*.o
+			$(RM) $(OBJS) 
 
 fclean:		clean
-			$(RM) $(NAME) libft/libft.a
+			$(RM) $(NAME) 
 
 re:			fclean all
 
-.PHONY:		all clean fclean re lib
+.PHONY:		all clean fclean re 

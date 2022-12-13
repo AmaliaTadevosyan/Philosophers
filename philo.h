@@ -6,7 +6,7 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 15:06:32 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/10 16:30:13 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/13 16:12:17 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/time.h>
 # include <limits.h>
 # include <limits.h>
-# include "libft/libft.h"
+# include <unistd.h>
 
 typedef struct s_data
 {
@@ -45,5 +45,7 @@ int			check_args(char **argv);
 void		args_parsing(char **argv, int argc, t_data *data);
 void		init_mutex(pthread_mutex_t *forks, int forks_count);
 void		init_philo(t_data *data, pthread_mutex_t *forks, char **argv);
+int			ft_atoi(const char *str);
+void		*routine(void *philo_data);
 
 #endif
