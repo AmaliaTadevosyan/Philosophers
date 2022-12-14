@@ -6,7 +6,7 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:53:32 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/13 16:19:57 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/14 16:49:25 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	init_philo(t_data *data, pthread_mutex_t *forks, char **argv)
 	int				i;
 	struct timeval	start;
 
-	i = 0;
+	i = -1;
 	gettimeofday(&start, NULL);
-	while (i++ < ft_atoi(argv[1]))
+	while (++i < ft_atoi(argv[1]))
 	{
 		data[i].philo_index = i;
 		data[i].philo_count = ft_atoi(argv[1]);

@@ -6,7 +6,7 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 16:28:12 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/13 16:20:45 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/14 16:56:01 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_free(t_data *data, pthread_mutex_t *forks)
 	while (i < data->philo_count)
 	{
 		pthread_mutex_destroy(&data[i].left_fork);
-		phtread_mutex_destroy(&data[i].right_fork);
+		pthread_mutex_destroy(&data[i].right_fork);
 		i++;
 	}
 	free(data);
@@ -34,9 +34,10 @@ int	main(int argc, char **argv)
 	int				i;
 	int				count;
 	int				flag;
-	
+		
 	flag = check_args(argv);
-	if (argc >= 5 && argc <= 6 && flag)
+	printf("%d\n", flag);
+	if ((argc == 5 || argc == 6) || flag)
 	{
 		count = ft_atoi(argv[1]);
 		data = malloc(sizeof(data) * count);
@@ -48,10 +49,11 @@ int	main(int argc, char **argv)
 			i = 0;
 			while (i < data->philo_count)
 			{
-				if (check_dead())
+				if (check_death(data[i]) || ft_finish(data))
 				{
 					ft_free(data, forks);
 					printf("Philo is died!\n");
+					pthread_mutex_unlock(&data[i].print);
 					return (0);
 				}
 				i++;

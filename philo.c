@@ -6,16 +6,18 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 16:25:45 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/13 16:29:01 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/14 16:29:47 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*routine(t_data *data)
+void	*routine(void *philo_data)
 {
 	long long	cur_time;
+	t_data		*data;
 	
+	data = philo_data;
 	cur_time = get_time();
 	if (data->philo_index % 2)
 		ft_usleep(data->time_to_eat);
@@ -36,22 +38,18 @@ void	*routine(t_data *data)
 	}
 }
 
-int	check_dead(t_data *data)
+int	check_death(t_data data)
 {
-	int			i;
-	long long	time;
-	int			count;
-	
-	count = 0;
-	i = 0;
-	while (i < data->philo_count)
+	long curr_time;
+
+	curr_time = get_time();
+	if (curr_time - data.last_eat > data.time_to_die)
 	{
-		time = get_time();
-		if (data->eat_count == data->num_must_eat)
-		{
-			
-		}
+		pthread_mutex_lock(&data.print);
+		printf("%ld %s %d %s\n", curr_time, "philo number", data.philo_index, "is dead");
+		return (1);
 	}
+	return (0);
 }
 
 int	ft_finish(t_data *data)
@@ -63,6 +61,13 @@ int	ft_finish(t_data *data)
 		return (0);
 	while (i++ < data->philo_count)
 	{
-		thread_mutex_unlock(&data[i].time_to_eat);	
+		pthread_mutex_lock(&data[i].eat);
+		if (data[i].eat_count < data[i].num_must_eat)
+		{
+			pthread_mutex_unlock(&data[i].eat);
+			return (0);
+		}
+		pthread_mutex_unlock(&data[i].eat);
 	}
+	return (1);
 }
