@@ -6,7 +6,7 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 16:28:12 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/14 16:56:01 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/16 17:27:06 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,8 @@ int	main(int argc, char **argv)
 	pthread_mutex_t	*forks;
 	int				i;
 	int				count;
-	int				flag;
-		
-	flag = check_args(argv);
-	printf("%d\n", flag);
-	if ((argc == 5 || argc == 6) || flag)
+	
+	if ((argc == 5 || argc == 6) && check_args(argv))
 	{
 		count = ft_atoi(argv[1]);
 		data = malloc(sizeof(data) * count);
@@ -52,7 +49,7 @@ int	main(int argc, char **argv)
 				if (check_death(data[i]) || ft_finish(data))
 				{
 					ft_free(data, forks);
-					printf("Philo is died!\n");
+					printf("Stop th programm\n");
 					pthread_mutex_unlock(&data[i].print);
 					return (0);
 				}

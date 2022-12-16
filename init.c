@@ -6,7 +6,7 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:53:32 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/14 16:49:25 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/16 15:44:38 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	init_philo(t_data *data, pthread_mutex_t *forks, char **argv)
 			data[i].num_must_eat = ft_atoi(argv[5]);
 		data[i].start_time = start.tv_sec * 1000 + start.tv_usec / 1000;
 		pthread_create(&data[i].id, NULL, &routine, &data[i]);
-		//Pthred_join or detach? 
+		pthread_detach(data[i].id);
 	}
 }
 

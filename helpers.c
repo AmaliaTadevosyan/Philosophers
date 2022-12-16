@@ -6,7 +6,7 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 16:25:38 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/10 16:38:06 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/16 17:03:52 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,17 @@ long int	get_time(void)
 
 void	ft_usleep(int ms)
 {
-	long int	time;
-
-	time = get_time();
-	while (get_time() - time < ms)
-		usleep(ms / 10);
+	struct timeval	now;
+	struct timeval	start;
+	
+	gettimeofday(&start, 0);
+	gettimeofday(&now, 0);
+	while ((now.tv_sec - start.tv_sec) * 1000
+		+ (now.tv_usec - start.tv_usec) / 1000 < ms)
+	{
+		usleep(50);
+		gettimeofday(&now, 0);
+	}
 }
 
 int	check_args(char **argv)
@@ -37,10 +43,10 @@ int	check_args(char **argv)
 	int	j;
 
 	i = 0;
-	while (argv[i++])
+	while (argv[++i])
 	{
-		j = 0;
-		while (argv[i][j++])
+		j = -1;
+		while (argv[i][++j])
 		{
 			if (argv[i][j] < '0' || argv[i][j] > '9')
 				return (0);
