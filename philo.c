@@ -6,7 +6,7 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 16:25:45 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/16 17:31:16 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/18 16:08:40 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	action(t_data *data, long *curr_time)
 {
-	*curr_time = get_time();
+	*curr_time = get_time(data->start_time);
 	printf("%ld %s %d %s\n", *curr_time, "ms philo number",
 		data->philo_index, "is sleeping");
 	ft_usleep(data->time_to_sleep);
-	*curr_time = get_time();
+	*curr_time = get_time(data->start_time);
 	printf("%ld %s %d %s\n", *curr_time, "ms philo number",
 		data->philo_index, "is thinking");
 }
@@ -29,24 +29,24 @@ void	*routine(void *philo_data)
 	t_data		*data;
 	
 	data = philo_data;
-	cur_time = get_time();
+	cur_time = get_time(data->start_time);
 	if (data->philo_index % 2)
 		ft_usleep(data->time_to_eat);
 	while (1)
 	{
-		pthread_mutex_lock(&data->right_fork);
-		printf("%lu, %d has teken right fork\n", get_time() - cur_time,
+		pthread_mutex_lock(data->right_fork);
+		printf("%lu, %d has teken right fork\n", get_time(data->start_time) - cur_time,
 			data->philo_index);
-		pthread_mutex_lock(&data->left_fork);
+		pthread_mutex_lock(data->left_fork);
 		data->eat_count++;
-		printf("%lu %d has teken left fork\n", get_time() - cur_time,
+		printf("%lu %d has teken left fork\n", get_time(data->start_time) - cur_time,
 			data->philo_index);
-		printf("%lu, %d is eating\n", get_time() - cur_time,
+		printf("%lu, %d is eating\n", get_time(data->start_time) - cur_time,
 			data->philo_index);
-		data->last_eat = get_time();
+		data->last_eat = get_time(data->start_time);
 		ft_usleep(data->time_to_eat);
-		pthread_mutex_unlock(&data->right_fork);
-		pthread_mutex_unlock(&data->left_fork);
+		pthread_mutex_unlock(data->right_fork);
+		pthread_mutex_unlock(data->left_fork);
 		action(data, &cur_time);
 	}
 }
@@ -55,7 +55,7 @@ int	check_death(t_data data)
 {
 	long	curr_time;
 
-	curr_time = get_time();
+	curr_time = get_time(data.start_time);
 	if (curr_time - data.last_eat > data.time_to_die)
 	{
 		pthread_mutex_lock(&data.print);

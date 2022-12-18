@@ -6,7 +6,7 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 15:06:32 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/14 16:35:21 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/18 15:31:55 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				num_must_eat;
 	int				philo_index;
-	pthread_mutex_t	left_fork;
-	pthread_mutex_t	right_fork;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	print;
 	pthread_mutex_t	eat;
 	long			last_eat;
@@ -42,7 +42,7 @@ typedef struct s_data
 }	t_data;
 
 void		ft_usleep(int ms);
-long int	get_time(void);
+long		get_time(long start);
 int			check_args(char **argv);
 void		args_parsing(char **argv, int argc, t_data *data);
 void		init_mutex(pthread_mutex_t *forks, int forks_count);
