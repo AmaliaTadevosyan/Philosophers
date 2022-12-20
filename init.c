@@ -6,11 +6,20 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:53:32 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/18 15:30:53 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/20 18:46:48 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	init(t_data *data, char **argv, int *i)
+{
+		data[*i].philo_index = *i;
+		data[*i].philo_count = ft_atoi(argv[1]);
+		data[*i].time_to_die = ft_atoi(argv[2]);
+		data[*i].time_to_eat = ft_atoi(argv[3]);
+		data[*i].time_to_sleep = ft_atoi(argv[4]);
+}
 
 void	init_philo(t_data *data, pthread_mutex_t *forks, char **argv)
 {
@@ -22,11 +31,7 @@ void	init_philo(t_data *data, pthread_mutex_t *forks, char **argv)
 	gettimeofday(&start, NULL);
 	while (++i < ft_atoi(argv[1]))
 	{
-		data[i].philo_index = i;
-		data[i].philo_count = ft_atoi(argv[1]);
-		data[i].time_to_die = ft_atoi(argv[2]);
-		data[i].time_to_eat = ft_atoi(argv[3]);
-		data[i].time_to_sleep = ft_atoi(argv[4]);
+		init(data, argv, &i);
 		data[i].left_fork = &forks[i];
 		data[i].right_fork = &forks[(i + 1) % data[i].philo_count];
 		error_num = pthread_mutex_init(&data[i].print, NULL);
@@ -38,7 +43,7 @@ void	init_philo(t_data *data, pthread_mutex_t *forks, char **argv)
 		if (argv[5])
 			data[i].num_must_eat = ft_atoi(argv[5]);
 		data[i].start_time = start.tv_sec * 1000 + start.tv_usec / 1000;
-		pthread_create(&data[i].id, NULL, &routine, &data[i]);
+		pthread_create(&data[i].id, NULL, (void *) routine, &data[i]);
 		pthread_detach(data[i].id);
 	}
 }

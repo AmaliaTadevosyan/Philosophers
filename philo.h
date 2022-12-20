@@ -6,7 +6,7 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 15:06:32 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/18 15:31:55 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/20 18:44:50 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ typedef struct s_data
 }	t_data;
 
 void		ft_usleep(int ms);
-long		get_time(long start);
+long		get_time();
 int			check_args(char **argv);
 void		args_parsing(char **argv, int argc, t_data *data);
 void		init_mutex(pthread_mutex_t *forks, int forks_count);
 void		init_philo(t_data *data, pthread_mutex_t *forks, char **argv);
 int			ft_atoi(const char *str);
-void		*routine(void *data);
+void		*routine(t_data *data);
 int			check_death(t_data data);
 int			ft_finish(t_data *data);
 

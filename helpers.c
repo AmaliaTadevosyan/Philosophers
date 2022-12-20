@@ -6,19 +6,19 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 16:25:38 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/18 14:48:02 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/20 18:38:47 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long int	get_time(long start)
+long int	get_time()
 {
 	struct timeval	curr_time;
 	long int		ret;
 
 	gettimeofday(&curr_time, NULL);
-	ret = (curr_time.tv_sec * 1000 + curr_time.tv_usec / 1000) - start;
+	ret = (curr_time.tv_sec * 1000 + curr_time.tv_usec / 1000) ;
 	return (ret);
 }
 
