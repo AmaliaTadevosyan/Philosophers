@@ -6,35 +6,27 @@
 /*   By: amtadevo <amtadevo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 16:25:38 by amtadevo          #+#    #+#             */
-/*   Updated: 2022/12/20 18:38:47 by amtadevo         ###   ########.fr       */
+/*   Updated: 2022/12/22 18:47:17 by amtadevo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long int	get_time()
+long int	get_time(void)
 {
-	struct timeval	curr_time;
-	long int		ret;
+	struct timeval	cur_time;
 
-	gettimeofday(&curr_time, NULL);
-	ret = (curr_time.tv_sec * 1000 + curr_time.tv_usec / 1000) ;
-	return (ret);
+	gettimeofday(&cur_time, NULL);
+	return ((cur_time.tv_sec * 1000 + cur_time.tv_usec / 1000));
 }
 
-void	ft_usleep(int ms)
+void	ft_usleep(long ms)
 {
-	struct timeval	now;
-	struct timeval	start;
-	
-	gettimeofday(&start, 0);
-	gettimeofday(&now, 0);
-	while ((now.tv_sec - start.tv_sec) * 1000
-		+ (now.tv_usec - start.tv_usec) / 1000 < ms)
-	{
-		usleep(50);
-		gettimeofday(&now, 0);
-	}
+	long	start;
+
+	start = get_time();
+	while (get_time() < (start + ms))
+		usleep(10);
 }
 
 int	check_args(char **argv)

@@ -1,19 +1,16 @@
 NAME	= philo
-CC		= gcc -fsanitize=thread
-CFLAGS	= -Wall -Werror -Wextra -fsanitize=thread
+CC		= gcc #-fsanitize=thread
+CFLAGS	= -Wall -Werror -Wextra -fsanitize=address -g
 RM		= rm -f
 
 SRCS	=	$(wildcard *.c)
 
 OBJS	=	$(patsubst %.c, %.o, $(SRCS))
 
-%.o: %.c
-			$(CC) $(CFLAGS) -c  $< -o $@
-
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			$(CC) -o $(NAME) $(OBJS)
+			$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
 clean:
 			$(RM) $(OBJS) 
